@@ -1,0 +1,68 @@
+// $Id: simple_phototaxis.n,v 1.1 2003/10/20 09:38:16 darrens Exp $
+Network simple_phototaxis
+{
+
+
+   add synapse rfr4 MotorSynapse excitatory from theRobot.l4 to khepera_motors.mnR
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 400 ms;
+     } 
+
+
+   add synapse rfr5 MotorSynapse excitatory from theRobot.l5 to khepera_motors.mnR
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 400 ms;
+     } 
+
+
+   add synapse lfl1 MotorSynapse excitatory from theRobot.l1 to khepera_motors.mnL
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 400 ms;
+     } 
+
+
+   add synapse lfl0 MotorSynapse excitatory from theRobot.l0 to khepera_motors.mnL
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 400 ms;
+     } 
+
+
+   add synapse lfl7 MotorSynapse excitatory from theRobot.l7 to khepera_motors.mnL
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 400 ms;
+     } 
+
+
+   add synapse rfr6 MotorSynapse excitatory from theRobot.l6 to khepera_motors.mnL
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 400 ms;
+     }
+
+
+   add synapse rfr3 MotorSynapse excitatory from theRobot.l3 to khepera_motors.mnR
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 200 ms;
+     } 
+
+
+   add synapse lfl2 MotorSynapse excitatory from theRobot.l2 to khepera_motors.mnL
+     { 
+       emSpeed = 0.05 m/s;
+       expSynT = 200 ms;
+     } 
+}
+ 
+
+
+
+
+
+
+

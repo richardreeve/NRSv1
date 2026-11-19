@@ -1,0 +1,165 @@
+Network wall_avert
+{
+
+  /* Strong inhibition of forward motion */
+  add synapse ir0ifm ConductanceBased inhibitory from theRobot.ir0 to driver_forward.motor_forward
+    {
+      vSynG = 20 nS;
+      expSynT = 20 ms;
+    }
+  add synapse ir1ifm ConductanceBased inhibitory from theRobot.ir1 to driver_forward.motor_forward
+    {
+      vSynG = 20 nS;
+      expSynT = 20 ms;
+    }
+  add synapse ir2ifm ConductanceBased inhibitory from theRobot.ir2 to driver_forward.motor_forward 
+    { 
+      vSynG = 20 nS;
+      expSynT = 20 ms; 
+    } 
+  add synapse ir3ifm ConductanceBased inhibitory from theRobot.ir3 to driver_forward.motor_forward 
+    { 
+      vSynG = 20 nS;
+      expSynT = 20 ms; 
+    } 
+  add synapse ir4ifm ConductanceBased inhibitory from theRobot.ir4 to driver_forward.motor_forward
+    { 
+      vSynG = 20 nS;
+      expSynT = 20 ms; 
+    } 
+  add synapse ir5ifm ConductanceBased inhibitory from theRobot.ir5 to driver_forward.motor_forward
+    { 
+      vSynG = 20 nS;
+      expSynT = 20 ms;
+    }
+
+  
+  /* Rotation away from a wall */
+
+  // Try direct connection to motors
+  
+  add synapse ir0rR MotorSynapse excitatory from theRobot.ir0 to khepera_motors.mnR
+    {
+      emSpeed = -0.08 m/s;
+      expSynT = 10 ms;
+    }  
+  
+  add synapse ir0rL MotorSynapse excitatory from theRobot.ir0 to khepera_motors.mnL
+    {
+      emSpeed = 0.08 m/s;
+      expSynT = 10 ms;
+    }
+  
+  add synapse ir1rR MotorSynapse excitatory from theRobot.ir1 to khepera_motors.mnR
+    {
+      emSpeed = -0.08 m/s;
+      expSynT = 10 ms;
+    }  
+  
+  add synapse ir1rL MotorSynapse excitatory from theRobot.ir1 to khepera_motors.mnL
+    {
+      emSpeed = 0.08 m/s;
+      expSynT = 10 ms;
+    }
+  
+  add synapse ir4rR MotorSynapse excitatory from theRobot.ir4 to khepera_motors.mnR
+    {
+      emSpeed = 0.08 m/s;
+      expSynT = 10 ms;
+    }  
+  
+  add synapse ir4rL MotorSynapse excitatory from theRobot.ir4 to khepera_motors.mnL
+    {
+      emSpeed = -0.08 m/s;
+      expSynT = 10 ms;
+    }
+  
+  add synapse ir5rR MotorSynapse excitatory from theRobot.ir5 to khepera_motors.mnR
+    {
+      emSpeed = 0.08 m/s;
+      expSynT = 10 ms;
+    }  
+  
+  add synapse ir5rL MotorSynapse excitatory from theRobot.ir5 to khepera_motors.mnL
+    {
+      emSpeed = -0.08 m/s;
+      expSynT = 10 ms;
+    }
+
+
+  add neuron turnLeft Spiking
+    {
+      refractT = 2 ms;
+    }
+  
+  add neuron turnRight Spiking
+    {
+      refractT = 2 ms;
+    }
+  
+
+  add synapse ir2r_turnRight ConductanceBased excitatory from theRobot.ir2 to turnRight
+    {
+      vSynG = 20 nS;  // very very strong
+    }
+  
+
+  add synapse ir3r_turnLeft ConductanceBased excitatory from theRobot.ir3 to turnLeft
+    {
+      vSynG = 20 nS;  // very very strong
+    }
+
+  // mutual inhibition
+
+  add synapse turnRight_inhibit_turnLeft ConductanceBased inhibitory from turnRight to turnLeft
+    {
+      vSynG = 30 nS;  // very very strong
+    }
+
+  add synapse turnLeft_inhibit_turnRight ConductanceBased inhibitory from turnLeft to turnRight
+    {
+      vSynG = 30 nS;  // very very strong
+    }
+
+  
+  
+
+
+  add synapse turnLeft_to_motorsR MotorSynapse excitatory from wall_avert.turnLeft to khepera_motors.mnR
+    {
+      emSpeed = 0.08 m/s;
+      expSynT = 10 ms;
+    }
+  
+  add synapse turnLeft_to_motorsL MotorSynapse excitatory from wall_avert.turnLeft to khepera_motors.mnL
+    {
+      emSpeed = -0.08 m/s;
+      expSynT = 10 ms;
+    }
+
+  add synapse turnRight_to_motorsR MotorSynapse excitatory from wall_avert.turnRight to khepera_motors.mnR
+    {
+      emSpeed = -0.08 m/s;
+      expSynT = 10 ms;
+    }
+  
+  add synapse turnRight_to_motorsL MotorSynapse excitatory from wall_avert.turnRight to khepera_motors.mnL
+    {
+      emSpeed = 0.08 m/s;
+      expSynT = 10 ms;
+    }
+
+  //  add synapse ir3rR MotorSynapse excitatory from theRobot.ir3 to khepera_motors.mnR
+  //    {
+  //      emSpeed = 0.06 m/s;
+  //      expSynT = 10 ms;
+  //    }  
+  //  
+  //  add synapse ir3rL MotorSynapse excitatory from theRobot.ir3 to khepera_motors.mnL
+  //    {
+  //      emSpeed = -0.06 m/s;
+  //      expSynT = 10 ms;
+  //    }
+
+}
+ 

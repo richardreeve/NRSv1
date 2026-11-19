@@ -1,0 +1,25 @@
+// $Id: khepera_motors.n,v 1.1 2003/10/20 09:38:16 darrens Exp $
+Network khepera_motors
+{
+  add neurons
+    {
+      mnL MotorNeuron targets theRobot.r_motor
+	{
+	  baseSpeed = 0.00 m/s;
+          membC = 1.0 pF;
+          
+	}
+      mnR MotorNeuron targets theRobot.l_motor
+	{
+	  baseSpeed = 0.00 m/s;
+          membC = 1.0 pF;
+	}
+    }
+}
+
+
+
+
+
+
+

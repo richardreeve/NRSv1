@@ -1,0 +1,40 @@
+<World  name = 'World_2'>
+    <Param name = 'string_type_thingy' value = 'ra'>
+    </Param>
+    <Param name = 'motorSide' value = 'left'>
+    </Param>
+    <Param name = 'bool_type_thingy' value = 'true'>
+    </Param>
+    <Param name = 'vSynG' value = '1.0'>
+    </Param>
+    <Container name = 'Network_5' type = 'motorContainer'>
+        <Param name = 'string_type_thingy' value = 'rara'>
+        </Param>
+        <Param name = 'motorSide' value = 'left'>
+        </Param>
+        <Param name = 'bool_type_thingy' value = 'true'>
+        </Param>
+        <Param name = 'vSynG' value = '1.0'>
+        </Param>
+        <Container name = 'Network_3' type = 'motorContainer'>
+            <Param name = 'bool_type_thingy' value = 'true'>
+            </Param>
+            <Param name = 'vSynG' value = '1.0'>
+            </Param>
+            <Terminal name = 'Neuron_1' type = 'motorNode'>
+                <GraphicalInfo x = '131' y = '194' ></GraphicalInfo>
+            </Terminal> 
+
+            <Terminal name = 'Neuron_2' type = 'motorNode'>
+                <GraphicalInfo x = '239' y = '158' ></GraphicalInfo>
+            </Terminal> 
+
+        </Container> 
+
+        <Terminal name = 'Neuron_3' type = 'motorNode'>
+            <GraphicalInfo x = '414' y = '163' ></GraphicalInfo>
+        </Terminal> 
+
+    </Container> 
+
+</World>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<n:SimulatorDescription xmlns:n="http://www.inf.ed.ac.uk/node_types" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.inf.ed.ac.uk/node_types" n:name="simulator_example">
+  <n:Description>A simulation environment that doesn't do much</n:Description>
+  <n:ParamNumDefault n:defaultVal="0.0" n:maxVal="unbounded" n:minVal="unbounded"/>
+  <n:ParamNumDescription n:name="timestep" n:defaultVal="1.0" n:units="ms" n:maxVal="unbounded" n:minVal="0.0" n:isInt="false">
+    <n:Description>
+      Timestep of the simulation.
+    </n:Description>
+  </n:ParamNumDescription>
+  <n:ParamBoolDescription n:name="bool_type_thingy" n:defaultVal="true">
+  <n:Description>
+  My Bool type thingy of Dooommmm
+    </n:Description>
+  </n:ParamBoolDescription>  
+  <n:ParamStringDescription n:name="string_type_thingy" n:defaultVal="rara">
+  <n:Description>
+  My String type thingy of Dooommmm
+    </n:Description>
+  </n:ParamStringDescription>
+  <n:ParamNumDescription n:name="vSynG" n:defaultVal="1.0" n:units="nS" n:maxVal="unbounded" n:minVal="unbounded" n:isInt="false">
+    <n:Description>
+      The base conductance change in the activated ion
+      channel for the synapse caused by a single spike. The
+      actual conductance change also depends on facilitatory
+      and depressive effects. Changing this, like changing
+      membG, affects the target membrane potential, and the
+      decay rate to it; increasing it pulls the target
+      closer to the ion channel's potential, and increases
+      the decay rate.
+    </n:Description>
+  </n:ParamNumDescription>
+  <n:ParamListDescription n:name="motorSide" n:defaultVal="left">
+    <n:Description>The side of motor which this controls</n:Description>
+    <n:Element n:name="left"/>
+    <n:Element n:name="right"/>
+  </n:ParamListDescription>
+  
+  <n:GlobalParams>
+    <n:ParamNum n:name="timestep"/>
+  </n:GlobalParams>
+  <n:NodeDescription n:name="motorNode" n:type="terminal">
+    <n:Description>Some strange kind of motor</n:Description>
+    <n:ParamNum n:name="vSynG"/>
+<n:ParamBool n:name="bool_type_thingy"/>
+<n:ParamString n:name="string_type_thingy"/>
+    <n:ParamList n:name="motorSide"/>
+  </n:NodeDescription>
+  <n:NodeDescription n:name="motorLink" n:type="link">
+    <n:Description>Even stranger link</n:Description>
+    <n:ParamNum n:name="vSynG"/>
+  </n:NodeDescription>
+  <n:NodeDescription n:name="cLink" n:type="link">
+    <n:Description>Even stranger link</n:Description>
+    <n:ParamNum n:name="vSynG"/>
+  </n:NodeDescription>
+  <n:NodeDescription n:name="bLink" n:type="link">
+    <n:Description>Even stranger link</n:Description>
+    <n:ParamNum n:name="vSynG"/>
+  </n:NodeDescription>
+  <n:NodeDescription n:name="aLink" n:type="link">
+    <n:Description>Even stranger link</n:Description>
+    <n:ParamNum n:name="vSynG"/>
+  </n:NodeDescription>
+  
+  <n:NodeDescription n:name="motorContainer" n:type="container">
+    <n:Description>Even stranger link</n:Description>
+  </n:NodeDescription>
+</n:SimulatorDescription>

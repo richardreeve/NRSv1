@@ -1,0 +1,108 @@
+NRS Enhancement List
+--------------------
+
+
+(1)  Adding XML Support
+
+     * Integration of XML libraries to the simulator, allowing it to
+       receive XML files.
+
+     * Interpreting XML events to calls of the nodeConversion. The
+       eventual aim will be to remove nodeConversion, and replace it
+       with a C++ interface.  But until then, it can be used to allow
+       development and testing of the XML interface.
+
+     * Add a Node class method, to externalise an XML description
+
+     * Add a Node class method, to internalise an XML description.
+
+(2)  Replace Relative Addressing with Absolute Addressing
+        
+     
+(3)  New C++ Programmatic Interface
+
+     * The current programmatic interface, nodeConversion and other
+       files in the interface/ directory, are hangovers from the old C
+       versions of NRS.  These should be replaced with a new C++
+       interface.  However, development of this has to wait until the
+       new changes being introduced to the NRS internals, such as
+       routing, are fully understood and designed.  
+
+(4)  Remove xxx_init() Functions
+
+     * These are the functions which register parameters for a
+       class. This should eventually be removed.  Currently it serves to
+       validate parameter entries in the parameters description, but
+       this will later change when parwameters come from XML.
+
+(5)  Parse Parameter Dimension Prefixes
+
+     * Currently, parameter dimension are prefixed with a fixed scalar,
+       such as mS, or mV, or nS etc.  A enhancement might be to all
+       other prefixs to be use: e.g., G, K, etc.
+
+(6)  Rework Routing
+
+(7)  JavaGrapher Compatability
+
+     * Allow a Java based grapher tool to received real-time updates
+       from the simulator to present an evolving graph in real time.
+
+     * The simulator could output, as part of the simulator-capability
+       XML description, a list of instructions for converting NRS output
+       values into human preferred values. E.g., converting from _tc
+       values to normal dimensions.
+
+(8)  Unify / Separate Biophysics Code
+
+     * Current biophysics code is split across several functions / files
+       for each neuron class.
+
+     * Would be nice to unify this, so the code is a more focused
+       area. Perhaps the biophysics could be concpetualised through an
+       interface, which would allow different mechanisms, ranging from
+       exact solutions, through to Euler and Runge-Kutta, to be
+       selected.
+
+(9)  Upgrade: Add better console output messages from the simulator to
+     better identify its connection status and its current
+     behaviour. I.e, if is is waiting for a connection, or something
+     else, a little message saying this would help.
+
+(10) Upgrade: Update the Exception throwing so that hints are provided by
+     every thrower.
+
+(11) Upgrade: Add a new parameter to each node, called something like
+     "Logging_Enabled", which defaults to true, to determine whether
+     that element participates in producing data output.  If this is
+     added to the root Node, it will get inherited to all others.
+
+(12) Style?: Move the MessageType enum inside the Message class.  Also
+     make globally accessibe, via the Message class, a function to
+     convert from a MessageType value to a text description.
+
+(13) Design?: Why are the large differences between the treatment of
+     synapses and neurons? Both should be seem as processing elements,
+     and as such there should be very few differences between them.  So
+     try to make synapses and neurons as much alike as possible. They
+     should only differ in their forms of input and output, and their
+     internal biophysic equations.
+
+(14) Try to remove the initialise.params file. This has a lot of
+     redundent data. E.g, the variable names are defined in the code,
+     and so to the units. So the only other items to move into the code
+     are initial values and description. Also see other modifications
+     for parameter handling also described in this file. Check with
+     Richard - maybe the move to XML might mean the file
+     initialise.params can be removed for other reasons?
+        
+(15) In the new version, remove the recording of average values. Richard
+     seemed to think these were no longer necessary (1 Sept. 2003). Talk
+     to him again before removing.
+
+(16) The modulatory synapse inherits from a Plain synapse. It shouldn't
+     do this, because it really doesn't act like a synapse. I.e., it
+     doesn't use the E, g or tau parameters like a normal synapse.
+
+(17) Try to remove Plain Synapse by merging back into Conditionable
+     Synapse.

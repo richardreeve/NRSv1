@@ -1,0 +1,63 @@
+INSTALL for neural robot software
+(c) Richard Reeve 2000-2002
+University of Stirling
+Released under a GNU General Public License of your choice
+No warranties offered as to fitness for any purpose, use at your own
+risk, etc.
+
+First you need to edit your .bashrc to set the variable SOFTHOME to
+the directory above the one you are going to unzip the software into.
+I use:
+
+export SOFTHOME=~/software
+
+which is a directory you need to have already created. You also need
+to add $SOFTHOME/bin/linux to your path using:
+
+export PATH=$PATH:$SOFTHOME/bin/linux
+
+Then you need to unzip the code into the appropriate directory by
+moving into $SOFTHOME and typing:
+
+tar jxfv nrs.tbz2; mv nrs-x.y nrs
+
+The second command is necessary, as the version number is appended to
+the directory name in storage just for reference, and should not be
+kept.
+
+or by downloading from the CVS source on taxis.stir.ac.uk if you have
+a login by typing the following from your home directory:
+
+export CVS_RSH=ssh
+export CVSROOT=:ext:<username>@taxis.stir.ac.uk/var/cvsroot
+cvs co software/nrs
+
+Then go into the nrs directory and type:
+
+make install
+
+to create all the necessary directories and build the executables.
+
+Documentation will now be in $SOFTHOME/doc, linux executables in
+$SOFTHOME/bin/linux and linux kernel modules in
+$SOFTHOME/lib/modules/linux. Koala and Khepera executables are in
+$SOFTHOME/bin/koala and khepera respectively, but are downloaded
+automatically, so you don't need to worry about that.
+
+See general.ps/pdf for more general information, and script.ps/pdf and
+model.ps/pdf for documentation on the scripting language and model.
+
+For subsequent installs it is sufficient to move to the nrs directory
+and type:
+
+cvs update
+
+if you have cvs access, or to follow the instructions for
+uncompressing again if not.
+
+To copy a modified installation elsewhere, simply type:
+
+make bzip2
+
+This will remove all of the unnecessary files (object files,
+executables and backups), and then zip up the rest into $SOFTHOME.

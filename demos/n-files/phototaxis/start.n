@@ -1,0 +1,75 @@
+// $Id: start.n,v 1.1 2003/10/20 09:38:16 darrens Exp $
+#include <defines.n>
+
+Network
+{
+  // ----------------------------------------------------------------------
+  // Set system wide simulation settings
+ 
+  // Define the duration of the experiment, in seconds. This gets set to
+  // the NRS 'Time' parameter later.
+  int run_time = 30;
+
+  // Define the timestep. This later gets set to the NRS 'stepT' parameter.
+  int timestep = 5;
+
+  // ----------------------------------------------------------------------
+  // Define which n-file modules to include. Please stick to the
+  // convention of using +1 for TRUE and -1 for FALSE
+
+  // Include "khepera_robot.n"?
+  int has_khepera_robot = 1;
+
+  // Include "khepera_motors.n"?
+  int has_khepera_motors = 1;
+
+  // Include "driver_forward.n"?
+  int has_driver_forward = 0;
+
+  // Include "simple_phototaxis"?
+  int has_simple_phototaxis = 1;
+
+  // ----------------------------------------------------------------------
+  // Set experiement procedure details
+  
+  // Provide a unique numeric label for an experiment. This should be
+  // composed of two values. First, to be stored in exp_dateTimeStamp,
+  // should be a date time stamp of the form YYYYMMDD. Second should be
+  // number which is unique for each experiment performed on that day.
+  int exp_index = 0;
+  int exp_dateTimeStamp = 20031020;
+  
+  // Define how many trials should be performed in the experiment. To perform
+  // an unlimited number of trials set this value to -1.
+  int num_trials = -1;
+
+  // Define whether source n-files can be modified between trials. If
+  // they can then set this value to TRUE (+1), which means the NRS
+  // neuron simulator will be instrvSynGucted to reload them after each
+  // trial.  (1 == TRUE, -1 == FALSE)
+  int can_alter = 1;
+
+  // ----------------------------------------------------------------------
+  // Run-time loop variables. DON'T ALTER THE VALUES OF THESE. These are
+  // not settings to be adjusted but instead define variables that later
+  // n-files need to keep track of state.
+  
+  // Record index of current trial number within the experiment. Should
+  // be set to zero.
+  int trial_index = 0;
+
+  // Control flag to determine if the current trial is the first of
+  // the experiment. Should be set to one.
+  int first = 1;
+
+  // Control flag. Used to control when network sub-modules should be
+  // added. Initial value set here doesn't have any meaning since its
+  // reset later.
+  int add_modules = 1;
+
+  // Control flag. Used to determine whether to perform another
+  // trial. Initial value here has no meaning.
+  int do_another_trial = -1;
+}
+
+#exec "loop.n"

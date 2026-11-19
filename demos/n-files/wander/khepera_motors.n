@@ -1,0 +1,24 @@
+Network khepera_motors
+{
+  add neurons
+    {
+      mnL MotorNeuron targets theRobot.l_motor
+	{
+	  baseSpeed = 0.00 m/s;
+          membC = 1.0 pF;
+          
+	}
+      mnR MotorNeuron targets theRobot.r_motor
+	{
+	  baseSpeed = 0.00 m/s;
+          membC = 1.0 pF;
+	}
+    }
+}
+
+
+
+
+
+
+

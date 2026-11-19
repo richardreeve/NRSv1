@@ -1,0 +1,41 @@
+Network khepera_robot
+{
+  printf("\n");
+  printf("----------------------------------------------------------------\n");
+  printf("KHEPERA DOWNLOAD\n\n");
+  printf("Defining the Khepera robot. The Khepera-NRS interface must be\n");
+  printf("downloaded to the robot. Press the 'reset' button on the robot\n");
+  printf("to start downloading. A single red LED on the robot (and also\n");
+  printf("on the interface unit) should activate to indicate download is\n");
+  printf("in process. If both red LEDs (on the robot) light-up, this\n");
+  printf("indicates error.\n");
+  printf("Please watch for robot messages in the neuron simulator ouput.\n");
+
+  Robot khepera theRobot()
+    {
+      motorspeed l_motor(100, left);
+      motorspeed r_motor(100, right);
+
+      // List of parameters for IR sensor
+      // 1st: 'average' : 0=false, 1=true
+      // 2nd: 'number'  : index which sensor to be used
+      // 3rd: 'spiking' : set to either "spike" or "analogue"
+      // 4th: offset/low
+      // 5th: scale/high
+
+      ir ir0(0, 0, spike, 900, 1200);
+      ir ir1(0, 1, spike, 900, 1200);
+      ir ir2(0, 2, spike, 900, 1200);
+      ir ir3(0, 3, spike, 900, 1200);
+      ir ir4(0, 4, spike, 900, 1200);
+      ir ir5(0, 5, spike, 900, 1200);
+      // ir ir6(0, 6, spike, 900, 1100);
+      // ir ir7(0, 7, spike, 900, 1100);
+
+      // ambient ab_anal(0, 3, analogue, 0 ,1);
+    }  
+
+  printf("\n>>>>>>>>>> DOWNLOAD COMPLETED <<<<<<<<<<\n");
+  printf("----------------------------------------------------------------\n");
+}
+

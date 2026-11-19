@@ -1,0 +1,27 @@
+To build this code, run the following:
+
+aclocal
+automake --add-missing
+autoconf
+./configure --prefix=/install-dir
+make install
+
+Then NRS.converter is installed in /install-dir/bin/
+
+Options available from 'NRS.converter -h'
+
+	case 's': // Timestep (in data samples)
+	case 'l': // collapse to [0,1]
+	case 'b': // first timetick to translate (in ms)
+	case 'e': // final timetick to translate (in ms)
+	case 'd': // differentiate neural signal (decay rate perhaps 0.9)
+	case 'i': // averaging interval for normalisation (perhaps 50000)
+	case 'f': // Find spikes in neuron
+	case 't': // amount of recovery time for first spike on sound
+	case 'r': // round sound to 0, 1
+	case 'n': // Name of neuron if not Neuron*
+
+
+NRS.converter Aff9c.dat data
+NRS.converter -l -n Intra2 -d 0.9 -i 50000 Aff9c.dat data
+NRS.converter -l -n Intra2 -d 0.9 -i 50000 -f 0.1 Aff9c.dat data

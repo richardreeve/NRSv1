@@ -1,0 +1,88 @@
+// Experiment to demonstrate a ModulatorySynapse sensitizing a
+// ConditionableSynapse.
+
+//
+// Darren Smith
+// University of Edinburgh, 2003
+
+#include <defines.n>
+
+Network System
+{  
+  SetParams
+    {
+      // Speed up the simulation by using a larger step size
+      stepT = 1 ms;
+    }
+ 
+  add neuron reinforcer SpikeSource
+      {
+        spikeTime = 500 ms;
+      }  
+
+
+  add neuron test SpikeSource
+    {
+      spikeTime = 50 ms;
+      spikePeriod = 100 ms;
+    }  
+
+  // Nothing special about the post-synaptic neuron.  Make it default.
+  add neuron postN Spiking
+    {
+    }
+
+  
+  add synapse
+    {
+      cond_syn ConditionableSynapse from test to postN
+        {
+          facDecayT = 1000 mS;
+          //          pSynG = 10 nS;
+        }
+    }
+  
+  add synapse
+    {
+      mod_syn ModulatorySynapse from reinforcer to cond_syn
+        {
+          /* default values */
+          expSynT = 10 ms;
+          mModStr = 2 nS;
+        }
+    }
+}
+
+
+Experiment
+{
+  Time = 4 s;
+
+  printf("sensitization.n demo script loaded\n");
+  
+  // Output lots of information
+  output_level = output_input | 
+                 output_spike |
+                 output_membV |  
+                 output_synapse;
+
+  Save
+  {
+    Level = output_level;
+    Start("~/data/sensitization");
+  }
+
+  printf("Running experiment...\n\n");
+  Run;
+  wait;
+  printf("\nExperiment completed\n--------------------\n");
+  printf("Use the nodeHelper.linux tool to convert the\n");
+  printf("output data to text format for viewing.\n\n");
+  printf("\n");
+  printf("WHAT YOU SHOULD SEE\n");
+  printf("In the log file you should see a sequence of excitatory\n");
+  printf("post-synaptic potentials.  The first few traces are all the\n");
+  printf("same, but then the sensitization kicks in, and the next EPSPs\n");
+  printf("show amplification - which slowly dies away.\n\n");
+}
+

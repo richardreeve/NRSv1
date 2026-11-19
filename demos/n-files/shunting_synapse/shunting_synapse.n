@@ -1,0 +1,137 @@
+// Experiment to show actions of shunting synapse
+
+#include <defines.n>
+
+Network System
+{  
+  SetParams
+    {
+      // Speed up the simulation by using a larger step size
+      stepT = 1 ms;
+    }
+ 
+  int membC_coeff = 120;
+
+  // Spike source
+  add neuron preN Spiking
+    {
+      membV = 0 mV;
+      threshV = -1 mV;
+      recovV = -40 mV;
+      
+      membG = 5 nS;
+      membC = membC_coeff * 10 pF;
+    }  
+
+  add neuron postN Spiking
+    {
+      threshV = 0 mV;
+
+      // postN neuron has a default resting potential of -80mv
+    }
+
+  add synapse
+    {
+      cond_syn1 ConductanceBased excitatory from preN to postN delay 50
+        {
+          /* default values */
+          expSynT = 30 ms;
+          evSynV = -30 mV;
+          vSynG = 10 nS;
+        }
+    }
+
+
+  add synapse
+    {
+      cond_syn2 ConductanceBased excitatory from preN to postN delay 300
+        {
+          /* default values */
+          expSynT = 30 ms;
+          evSynV = -30 mV;
+          vSynG = 10 nS;
+        }
+    }
+
+
+  add synapse
+    {
+      cond_syn3 ConductanceBased excitatory from preN to postN delay 600
+        {
+          /* default values */
+          expSynT = 30 ms;
+          evSynV = -30 mV;
+          vSynG = 10 nS;
+        }
+    }
+
+
+  add synapse
+    {
+      shunt_syn ConductanceBased shunting from preN to postN delay 300
+        {
+          /* default values */
+          expSynT = 30 ms;
+          //          evSynV = -30 mV;
+          vSynG = 10 nS;
+        }
+    }  
+  add synapse
+    {
+      psuedo_shunt_syn ConductanceBased excitatory from preN to postN delay 600
+        {
+          /* default values */
+          expSynT = 30 ms;
+          evSynV = -70 mV;
+          vSynG = 10 nS;
+        }
+    }  
+}
+
+
+Experiment
+{
+  Time = 1 s;
+
+  printf("shunting_synapse.n demo script loaded\n");
+  
+  // Output lots of information
+  output_level = output_input | output_spike | output_membV;
+
+  Save
+  {
+    Level = output_level;
+    Start("~/data/shunting_synapse");
+  }
+
+  printf("Running experiment...\n\n");
+  Run;
+  wait;
+  printf("\nExperiment completed\n--------------------\n");
+  printf("Use the nodeHelper.linux tool to convert the\n");
+  printf("output data to text format for viewing.\n\n");
+
+  printf("WHAT YOU SHOULD SEE\n");
+  printf("Shunting synapses draw the PSP back towards the post-synaptic\n");
+  printf("neuron's resting potential, membV.  Thus their action can be\n");
+  printf("silent.  We only see their effect when other psp's are active.\n");
+  printf("In this demo, we see 3 profiles. The first PSP is an excitatory\n");
+  printf("PSP.  The following pair are combinations of an identical PSP to\n");
+  printf("the first, with (1) a shunting PSP and (2) a psuedo-shunting\n");
+  printf("synapse.\n");
+  printf("\n");
+  printf("Taking the middle PSP.  This is a combination of a shunt and a\n");
+  printf("PSP identical to the first.  We can see that the shunt has acted\n");
+  printf("because the peak of this PSP is lower that the first.\n");
+  printf("\n");
+  printf("The third PSP is a psuedo shunt.  The other shunt was defined\n");
+  printf("in the n-file as type 'shunting' but this is defined as type\n");
+  printf("'excitatory'.  The action of a shunt is simulated by giving\n");
+  printf("this excitatory synapse a reversal potential of -70 mV, which is\n");
+  printf("close to the target membV of -80 mV.  This slight difference\n");
+  printf("accounts for the different heights of the profiles.\n");
+  printf("\n");
+
+
+}
+

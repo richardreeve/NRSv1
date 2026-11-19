@@ -1,0 +1,87 @@
+// Experiment to examine how a synapse responds to a train of spikes
+
+#include <defines.n>
+
+Network System
+{  
+  SetParams
+    {
+      // Speed up the simulation by using a larger step size
+      stepT = 1 ms;
+    }
+ 
+  /* ------------------------------------------------------------------ */
+  /* FACTORY SETTINGS                                                   */
+  /*                                                                    */
+  /* To get nice output data, set the following parameter / value pairs */
+  /*                                                                    */
+  /*     stepT = 1 ms;                                                  */
+  /*     membC_coeff = 100;                                             */
+  /*     Time = 1 s;                                                    */
+  /* ------------------------------------------------------------------ */
+
+  int membC_coeff = 25;
+
+  add neuron preN Spiking
+    {
+      membV = 0 mV;
+      threshV = -1 mV;
+      recovV = -40 mV;
+      
+      membG = 5 nS;
+      membC = membC_coeff * 10 pF;
+    }  
+
+  add neuron postN Spiking
+    {
+      threshV = 0 mV;
+    }
+
+  add synapse
+    {
+      syn ConductanceBased excitatory from preN to postN
+        {
+          /* default values */
+
+          // Basic parameters
+          expSynT = 20 ms;
+          vSynG = 1 nS;
+          synDelayT = 6 ms;          
+          evSynV = 0 mV;
+          ivSynV = -100 mV;
+
+          // Facilitatory parameters
+          synFacT = 200 ms;
+          vSynFacG = 0.2 nS;
+          
+          // Depressive parameters
+          synDepT = 3 ms;
+          vSynDepFrac = 1 /ms;
+        }
+    }  
+}
+
+
+Experiment
+{
+  Time = 1 s;
+
+  printf("synapse_facilitation.n demo script loaded\n");
+  
+  // Output lots of information
+  output_level = output_input | output_spike | output_membV | output_membG | output_synapse | output_facdep;
+
+  Save
+  {
+    Level = output_level;
+    Start("~/data/synapse_facilitation");
+  }
+
+  printf("Running experiment...\n\n");
+  Run;
+  wait;
+  printf("\nExperiment completed\n--------------------\n");
+  printf("Use the nodeHelper.linux tool to convert the\n");
+  printf("output data to text format for viewing.\n\n");
+}
+

@@ -1,0 +1,95 @@
+// Experiment to demonstrate the extremely simple neuron, SpikeSource
+//
+// Darren Smith
+// University of Edinburgh, 2003
+
+#include <defines.n>
+
+Network System
+{  
+  SetParams
+    {
+      // Speed up the simulation by using a larger step size
+      stepT = 1 ms;
+    }
+ 
+  /* ------------------------------------------------------------------ */
+  /* FACTORY SETTINGS                                                   */
+  /*                                                                    */
+  /* To get nice output data, set the following parameter / value pairs */
+  /*                                                                    */
+  /*     THERE ARE NO SPECIAL SETTINGS                                  */
+  /*                                                                    */
+  /* ------------------------------------------------------------------ */
+
+  // This should cause an error, because the spikeTime is negative.
+  add neuron spikesource_bad SpikeSource
+    {
+      spikeTime = -1 ms;
+    } 
+
+  // This demonstrates the default time value
+  add neuron spikesource_default SpikeSource
+    {
+    }  
+
+  // This demonstrates that a value of zero won't give a spike
+  add neuron spikesource_0 SpikeSource
+    {
+      spikeTime = 0 ms;
+    }  
+
+  // This demonstrates the earliest a spike can occur
+  add neuron spikesource_1 SpikeSource
+    {
+      spikeTime = 1 ms;
+    }
+
+  // This demonstrates a user specified value
+  add neuron spikesource_555 SpikeSource
+    {
+      spikeTime = 555 ms;
+    }
+
+  // This demonstrates a spike train with an initial delay until the
+  // first spike and then regular spikes after that.
+  add neuron spikesource_repeat SpikeSource
+    {
+      spikeTime = 220 ms;
+      spikePeriod = 50 ms;
+    }
+
+  // This demonstrates a spike train with an initial delay until the
+  // first spike and then regular spikes after that, which stop after
+  // a particular amount of time.
+  add neuron spikesource_duration SpikeSource
+    {
+      spikeTime = 150 ms;
+      spikePeriod = 5 ms;
+      spikeDuration = 100 ms;
+    }
+}
+
+
+Experiment
+{
+  Time = 1 s;
+
+  printf("single_spikes.n demo script loaded\n");
+  
+  output_level =  output_spike;
+
+  Save
+  {
+    Level = output_level;
+    Start("~/data/single_spikes");
+  }
+
+  printf("Running experiment...\n\n");
+  Run;
+  wait;
+  printf("\nExperiment completed\n--------------------\n");
+  printf("Use the nodeHelper.linux tool to convert the\n");
+  printf("output data to text format for viewing.\n\n");
+}
+

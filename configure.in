@@ -1,0 +1,30 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(Node/Node.cc)
+
+dnl Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_MAKE_SET
+
+dnl Checks for libraries.
+dnl Replace `main' with a function in -lm:
+AC_CHECK_LIB(m, exp)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h malloc.h sys/ioctl.h sys/time.h unistd.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_MMAP
+AC_TYPE_SIGNAL
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(getcwd gettimeofday select socket strdup strerror)
+
+AC_OUTPUT(sensors/Makefile peripheral/Makefile tell/Makefile tracker/Makefile calibrate/Makefile parser/Makefile download/Makefile sing/Makefile motor/Makefile Node/Makefile allegro/Makefile robot/Makefile Fixed/Makefile Makefile simulator/Makefile i2c/Makefile rt_com/Makefile perl/Makefile include/Makefile tui/Makefile fifo_serial/Makefile scilab/Makefile gui/Makefile scripts/Makefile initialise/Makefile interface/Makefile tex/Makefile camera/Makefile)

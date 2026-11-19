@@ -1,0 +1,83 @@
+// Experiment to have a single neuron spike at a constant frequency
+
+#include <defines.n>
+
+Network System
+{  
+  SetParams
+    {
+      // Speed up the simulation by using a larger step size
+      stepT = 1 ms;
+    }
+ 
+  //   membC coeff.    period
+  //
+  //    1               7.38    msec
+  //    5               36.89   msec
+  //    10              73.78   msec
+  //    20              147.56  msec
+  //    50              368.89  msec
+  //    100             737.78  msec
+  //    110             811.55  msec
+  //    130             959.11  msec
+  //    135.5           999.69  msec
+  //
+  //    200             1.48    sec
+  //    300             2.21    sec
+  //    500             3.69    sec
+  //    750             5.53    sec
+  //    1000            7.38    sec
+  //    2000            14.76   sec
+  //    5000            36.89   sec
+  //    10000           73.78   sec
+  
+  /* ------------------------------------------------------------------ */
+  /* FACTORY SETTINGS                                                   */
+  /*                                                                    */
+  /* To get nice output data, set the following parameter / value pairs */
+  /*                                                                    */
+  /*     stepT = 1 ms;                                                  */
+  /*     membC_coeff = 50;                                              */
+  /*     Time = 1 s;                                                    */
+  /* ------------------------------------------------------------------ */
+
+
+  // Change this number according to the above table to set
+  // the desired spike frequency
+  int membC_coeff = 50;
+
+  add neuron spiker Spiking
+    {
+      membV = 0 mV;
+      threshV = -1 mV;
+      recovV = -40 mV;
+      
+      membG = 5 nS;
+      membC = membC_coeff * 10 pF;
+    }  
+}
+
+
+Experiment
+{
+  Time = 1 s;
+
+  printf("periodic_spiker.n demo script loaded\n");
+  
+  // Output lots of information
+  output_level = output_input | output_spike | output_membV;
+
+  Save
+  {
+    Level = output_level;
+    Start("~/data/periodic_spiker");
+  }
+
+  printf("Running experiment...\n\n");
+  Run;
+  wait;
+  printf("\nExperiment completed\n--------------------\n");
+  printf("Use the nodeHelper.linux tool to convert the\n");
+  printf("output data to text format for viewing.\n\n");
+}
+

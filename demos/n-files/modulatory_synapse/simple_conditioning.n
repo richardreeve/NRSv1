@@ -1,0 +1,97 @@
+// Experiment to demonstrate a ModulatorySynapse and a Conditionable
+// synapse in a situation where there is a very simple synaptic
+// strengthening due to single spikes.
+
+//
+// Darren Smith
+// University of Edinburgh, 2003
+
+#include <defines.n>
+
+Network System
+{  
+  SetParams
+    {
+      // Speed up the simulation by using a larger step size
+      stepT = 1 ms;
+    }
+ 
+  // This is the CS (Conditioned Stimulus) pathway.  Three spikes are
+  // produced.  The first is a pre-training test, the second is the
+  // training, and the third is the post-training test
+  add neuron cs SpikeSource
+    {
+      spikeTime = 300 ms;
+      spikePeriod = 300 ms;
+    }
+
+  // This represents the US (Unconditioned Stimulus) which does the
+  // synaptic reinforcement (sensitization and conditioning)
+  add neuron us SpikeSource
+    {
+      spikeTime = 605 ms;
+    }
+  
+  // Effects of synaptic reinforcement will be observed in the change in
+  // depolarisation of this postsynapse neuron.
+  add neuron postN Spiking
+    {
+      /* defaults
+
+      membC = 10 pF
+      membG = 5 nS
+      */
+
+      membC = 10 pF;
+      membG = 5 nS;
+    }
+
+  // Synapse carrying CS information which will undergoe modification.
+  add synapse cond_syn ConditionableSynapse from cs to postN delay 1
+    {
+      facDecayT = 1000 mS;
+      traceDecayT = 10 mS;
+      traceFactor = 0.0 none;
+    }
+
+  // Synapse carrying US information and will reinforce the CS pathway.
+  add synapse mod_syn ModulatorySynapse from us to cond_syn delay 1
+    {
+      mModStr = 2 nS;
+    }
+}
+
+
+Experiment
+{
+  Time = 1 s;
+
+  printf("simple_conditioning.n demo script loaded\n");
+  
+  // Output lots of information
+  output_level = output_input | 
+                 output_spike |
+                 output_membV | 
+                 output_synapse;
+
+  Save
+  {
+    Level = output_level;
+    Start("~/data/simple_conditioning");
+  }
+
+  printf("Running experiment...\n\n");
+  Run;
+  wait;
+  printf("\nExperiment completed\n--------------------\n");
+  printf("Use the 'nodeHelper.linux -t' tool to convert the\n");
+  printf("output data to text format for viewing.\n\n");
+  printf("\n");
+  printf("WHAT YOU SHOULD SEE\n");
+  printf("In the data files you should see, inter alia, the membrane\n");
+  printf("potential for a neuron which is undergoeing simple synaptic\n");
+  printf("'conditioning'.  The first EPSP is before training, the second\n");
+  printf("is during training, and the third is post training.\n");
+  printf("\n");
+}
+

@@ -1,0 +1,15 @@
+README for neural robot software
+(c) Richard Reeve 2000-2002
+University of Stirling
+Released under a GNU General Public License of your choice
+No warranties offered as to fitness for any purpose, use at your own
+risk, etc.
+
+See INSTALL for how to install
+
+After installation:
+
+See $SOFTHOME/doc/general.ps/pdf for how to run the software
+See $SOFTHOME/doc/script.ps/pdf for how to write scripts
+See $SOFTHOME/doc/model.ps/pdf for details of the neural model
+

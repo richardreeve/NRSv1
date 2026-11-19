@@ -1,0 +1,63 @@
+
+Data Acquisition
+
+Data sampling requires specific adaptations of the acquisition program
+to the A/D board in use. Any technical changes of A/D boards would
+require new adaptations of the software. Therefore, NEUROLAB does not
+support data acquisition but processes any data sampled by the
+commercially available software package TurboLab. (TurboLab is
+distributed by Bressner Technology, Grobenzell FRG; Scentech Inc,
+Woburn MA, USA and as Globalab by Data Translation, Marlboro MA,
+USA). Turbolab conveniently supports data sampling with a variety of
+A/D boards from Analogic, Analog Devices, Data Translation, IO-Tech
+and Stemmer, with different numbers of channels, sampling rates and
+amplitude resolution.
+
+The program is adapted to binary data files in the TurboLab 3.0 format
+as well as the new TurboLab 4.2 format. It processes data sampled for
+a maximum number of 16 channels and with a maximum of 16 bit amplitude
+resolution. In Turbolab 3.0 each file consists of a 512 byte header
+with the main information and comments on the sample run. Thereafter,
+the data of all channels follow sequentially in two-byte integer
+format. Thus, even if data has been sampled by another software, it
+should be easy to transform the data file in the Turbolab 3.0 format.
+
+The organization of the Turbolab 4.2 header is more complicated. It is
+designed to cope with variable data structures and future developments
+of A/D boards and sampling processes.
+
+
+Turbolab 3.0 Header
+
+(TYPE-Definition for strg10=string[10];)
+				{Length of the string10 is 11 byte}
+
+Header = Record
+ID:string[8];				{identification="Turbolab"}
+NChan:byte;				      {number of channels}
+Gain:array[0..15] of byte;		{gain of channels}
+Names:array[0..15] of strg10;		{name of channels}
+FrqKts:strg10;				{sampl. freq. per channel, 11 bytes}
+FrqSts:Strg10;				{total sampling freq. 11 bytes}
+Bufferlen:strg[9];			{total no. of data, 10 bytes}
+Year:integer;
+Month:byte;
+Day:byte;
+Hour:byte;
+Minute:byte;
+Label:String[64];			{data protocol, 65 bytes}
+Board:byte;				{board identification no. 1:DT-2821}
+					 {2:DT-2821F-16-SE, 3:DT-2821F-8DI}
+					 {4:DT2827, 5:DT-2828}
+Base:integer;				{base-address}
+DMAKan1,DMAKan2:byte;			{1. and 2. DMA channel}
+IntLev:byte;				{interrupt level}
+InpRange:byte;				{input-range}
+Coding:byte;				{coding: 1=straight binary}
+					 {2=offset binary 3=two's complement}
+InpMode:byte;				{1=single ended, 2=differential}
+FFU:array[315..512] of byte;		{for future improvements}
+END;
+
+
+

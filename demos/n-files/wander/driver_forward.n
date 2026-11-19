@@ -1,0 +1,34 @@
+Network driver_forward
+{
+  add neuron df_spiker0 SpikeSource
+    {
+      spikeTime = 100 ms;
+      spikePeriod = 5 ms;
+    }
+  add neuron motor_forward Spiking
+    {
+      threshV = -40 mV;
+      recovV  = -80 mV;
+      refractT = 10 ms;
+    }
+  
+  /* Inhibition can be applied to this neuron to stop motion */
+  add synapse syndriver ConductanceBased excitatory from df_spiker0 to motor_forward
+    {
+      vSynG = 4 nS;
+    } 
+
+
+     add synapse msr MotorSynapse excitatory from driver_forward.motor_forward to khepera_motors.mnR
+       { 
+         emSpeed = 0.1 m/s;
+         expSynT = 50 ms;
+       } 
+
+
+     add synapse msl MotorSynapse excitatory from driver_forward.motor_forward to khepera_motors.mnL
+       { 
+         emSpeed = 0.1 m/s;
+         expSynT = 50 ms;
+       } 
+}

@@ -1,0 +1,202 @@
+// $Id: loop.n,v 1.1 2003/10/20 09:38:16 darrens Exp $
+Network
+{  
+    SetParams
+    {
+      expSynT = 20 ms;
+      refractT = 0 ms;
+      recovV = -45mV;
+      
+      stepT = timestep ms; // testing higher steps
+    }
+}
+
+// Test to see if we are on the first trial. If we are, and the
+// configuration specifies a robot is included, add that robot now
+// before any other networks. This must be done since other neurons can
+// only target this robot if this robot has already been defined. Also,
+// we don't add and remove and re-add the robot interface, because once
+// the NRS-interface program is downloaded to the robot, NRS allows us
+// to reuse it.
+if (first > 0)
+{
+
+  printf("\n");
+  printf("Simple Phototaxis Example\n");
+  printf("-------------------------\n\n");
+  printf("This is an example of simple phototaxis. The robot will\n");
+  printf("orientate toward and approach a strong light source. If\n");
+  printf("light is presented to the rear of the robot, the robot\n");
+  printf("will respond by spinning clockwise, until phototaxis\n");
+  printf("behaviour is again initiated.\n");
+
+  //  Network
+  //    {
+      if (has_khepera_robot > 0)
+        {
+#include "khepera_robot.n"
+        }
+      //    }
+  
+  // Set a flag to indicate network modules need to be added.
+  add_modules = 1;
+
+  // Set flag to indicate first time processing completed.
+  first = -1;
+}
+
+
+// ---------------------------------------------------------------------------
+// 
+// Display a message to indicate start of a trial. If the can_alter flag has
+// been set, then also display a message to remind the user this is when they
+// can alter n-files.
+//
+printf("\n***** Ready to begin trial number %.0f *****\n", trial_index);
+
+if (add_modules > 0)
+{
+  printf("You may alter n-files before continuing. ");
+} 
+ 
+printf("Press Ctrl-D to begin.\n\n", trial_index);
+#interact
+
+// ---------------------------------------------------------------------------
+//
+// If necessary add the sub-network modules. This will be done on either the
+// run of the first trial, or also on every successive if the n-files can be
+// altered (i.e., if they can be altered then they need to be reloaded).
+//
+if (add_modules > 0)
+{
+  Network
+    {
+      
+      if (has_khepera_motors > 0)
+        {
+#include "khepera_motors.n" 
+        }
+
+      if (has_simple_phototaxis > 0)
+        {
+#include "simple_phototaxis.n"
+        }
+
+
+
+
+    }
+  
+  // Now we've added modules, we reset the flag that brought us here
+  add_modules = -1;
+}
+
+// ---------------------------------------------------------------------------
+
+Experiment
+{
+    output_level = output_input |
+      output_spike |
+      output_membV | 
+      output_track |
+      output_synapse |
+      output_motor;
+    
+    //  output_input | output_synapse; 
+    // output_input | output_motor | output_track;
+
+    
+    printf("Data will be saved to /tmp/data/results_%.0f_exp%.0f_trial_%.0f\n",
+          exp_dateTimeStamp, 
+           exp_index, 
+           trial_index);
+    Save 
+    {
+        Level=output_level;
+        Start("/home/darrens/data/results_%.0f_exp%.0f_trial_%.0f",
+              exp_dateTimeStamp,
+              exp_index,
+              trial_index);
+        Level=output_level; 
+    }
+
+    Time = run_time;
+
+    printf("Starting: trial %.0f of run %.0f:%.0f ....\n\n",
+           trial_index,
+           exp_dateTimeStamp,
+           exp_index);
+
+
+
+    // Send a command to the neuron simulator to start the
+    // simulation. Note that this script command returns immediately. So
+    // it is very likely that execution will continue in this script
+    // before the simulation ends.
+    Run;
+
+    // Hold up execution within this script until the neuron simulator
+    // has finished the current simulation.
+    wait;
+    Save Stop;
+    
+
+    printf("\nCompleted: trial %.0f of run %.0f:%.0f \n",
+           trial_index,
+           exp_dateTimeStamp,
+           exp_index);  
+}
+
+// --------------------------------------------------------------------------
+
+trial_index++;
+
+// ---------------------------------------------------------------------------
+// 
+// Determine whether another trial needs to be made. The default case is
+// that no further trials are necessary (hence the unconditional
+// assignment).
+//
+do_another_trial = -1;
+
+// Case of a limited number of trials
+if (trial_index < num_trials)
+{
+  do_another_trial = 1;
+}
+
+// Case of unlimited trials
+if (num_trials < 0)
+{
+  do_another_trial = 1;
+}
+
+// ---------------------------------------------------------------------------
+
+if (do_another_trial > 0 )
+{
+  if (can_alter > 0)
+    {
+      Network
+        {
+         if (has_khepera_motors > 0)
+            {
+              remove khepera_motors;
+            }
+
+          if (has_simple_phototaxis > 0)
+            {
+              remove simple_phototaxis;
+            }
+	}
+
+      // Because the network modules have been removed, we must set the
+      // flag to have them added again
+      add_modules = 1;
+    }
+#redo
+}
+
+#quit
+

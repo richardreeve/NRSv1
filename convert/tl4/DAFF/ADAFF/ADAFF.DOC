@@ -1,0 +1,88 @@
+ADAFF.EXE - AppendDaff  - (c) 1994 MDZ Bhrer & Partner GbR
+-----------------------------------------------------------
+Tel: (089) 80 50 86                      Lochhauser Str. 28
+Fax: (089) 80 52 83                          82178 Puchheim
+e-M: buehrer@ibm.net  
+
+
+Das Programm ADAFF ist dazu gedacht, bin„re DAFF-Dateien, die
+z.B. beim Aufzeichnen mit TurboLab oder TurboLab Online ent-
+standen sind, zusammenzuh„ngen.
+
+Voraussetzung dazu ist natrlich, daá beide Dateien auch aus
+demselben Meáaufbau stammen und dieselben Signale beinhalten.
+
+
+Aufruf des Programms:
+
+   ADAFF [-options] Datei1 Datei2 [Ergebnis]
+
+Optionen:
+
+   Optionen bestehen immer aus einem "-"-Zeichen, dem Kenn-
+   buchstaben und (optional) einem Flag ("+" oder "-"), der
+   angibt, ob die Optiuon ein- ("+") oder ausgechaltet ist.
+   Fehlt das Flag, dann gilt automatisch "+".
+
+   -s+    Beim Vergleichen der beiden Dateien werden die
+          Signalnamen und die Y-Skalierung mitbercksichtigt.
+   -s-    Signalnamen und Y-Skalierung werden NICHT verglichen
+
+   -d+    die angeh„ngten Dateien werden nach erfolgreicher
+          Ausfhrung gel”scht; wenn "Ergebnis" angegeben wurde,
+          dann werden "Datei1" und "Datei2" gel”scht, sonst
+          nur "Datei2"
+   -d-    die Dateien werden nicht gel”scht
+
+   -v+    (Verbose) Das Programm gibt zus„tzliche Meldungen aus
+   -v-    Das Programm gibt nur Fehlermeldungen aus
+
+Dateien:
+
+   Alle Dateien haben die voreingestellte Dateierweiterung ".DAT"
+   Wenn eine "Ergebnis"-Datei angegeben wurde, dann wird zun„chst
+   "Datei1" nach "Ergebnis" kopiert und anschlieáend "Datei2" an
+   "Ergebnis" angeh„ngt. Andernfalls wird "Datei2" an "Datei1" an-
+   geh„ngt.
+
+Rckgabewert:
+
+    Zum Einsatz in Batch-Dateien gibt das Programm den Error-Code
+    0 zurck, wenn alles geklappt hat, ansonsten den Error-Code 1.
+
+Problem:
+
+    Einige DAFF-Dateien k”nnen nicht verarbeitet werden; vor allem
+    ASCII-Dateien und geblockte Dateien werden im Moment noch nicht
+    untersttzt.
+
+    Exportierte Dateien haben teilweise die L„nge intern gespeichert,
+    was das anh„ngen relativ nutzlos macht. Das Programm kann das
+    korrigieren, wenn keine "Ergebnis"-Datei angegeben wird. Sollte
+    die Meldung "Datei hat interne L„nge" erscheinen, dann ersetzen
+    Sie bitte den Aufruf:
+
+      ADAFF Datei1 Datei2 Ergebnis
+
+    durch
+     
+      COPY Datei1.DAT Ergebnis.DAT
+      ADAFF Ergebis Datei2
+
+Hinweise:
+
+     Das Programm wurde nicht vollst„ndig und mit allen Datei-
+     typen getestet, dafr wird es allerdings kostenlos und mit
+     PASCAL-Quellen vertrieben; es máte zumindest mit allen TurboLab-
+     Mess-Dateien funktionieren.   
+
+     Bitte benutzen Sie zumindest am Anfang die ausfhrliche Form
+     (mit "Ergebnis") und verzichten Sie auf die Option "-d+", da
+     dann zumindest keine Daten verloren gehen.
+
+     Falls Ihnen Fehler oder Ungereimtheiten auffallen (und Sie
+     die vielleicht sogar korrigieren k”nnen), w„ren wir Ihnen
+     dankbar, wenn Sie uns davon benachrichtigen k”nnten.
+
+
+
